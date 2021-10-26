@@ -27,5 +27,5 @@ app.use('/fournisseur', (require("./Routes/Fournisseurs")))
 app.use('/famille', (require("./Routes/Familles")))
 app.use('/bc', (require("./Routes/Bcommandes")))
 
-
+console.log("nadim");
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`))
