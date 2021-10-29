@@ -1,31 +1,37 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-require('dotenv').config()
-
-const PORT= process.env.PORT || 5000;
+var  express = require('express');
 const app = express();
-//Connect to DataBase
-mongoose.connect(process.env.MONGO_URI,
-  {useNewUrlParser: true, useUnifiedTopology: true},
-  ()=>{
-      console.log('connected to Database');
-})
-mongoose.connection.on('error', err => {
-  console.log(err);
+var router = express.Router();
+const db = require("./models/index");
+const cors = require('cors');
+var AuthRouter=require('./Routes/AuthRoute');
+var fourniRouter=require('./Routes/FourniRoute');
+var famillRouter=require('./Routes/familleRoute');
+var articleRouter=require('./Routes/ArticleRoute');
+var clientRouter=require('./Routes/ClientRoute');
+
+
+
+
+
+
+require('dotenv').config();
+const PORT= process.env.PORT || 5000;
+db.sequelize.sync({ force: false }).then(() => {
+  console.log("Drop and re-sync db.");  
 });
 
-app.use(cors())
+app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-//Body-Parser Middleware
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
 
-app.use('/article', (require("./Routes/Articles")))
-app.use('/client', (require("./Routes/Clients")))
-app.use('/fournisseur', (require("./Routes/Fournisseurs")))
-app.use('/famille', (require("./Routes/Familles")))
-app.use('/bc', (require("./Routes/Bcommandes")))
+app.use('/api/adminclient',AuthRouter);
+app.use('/api/fournisseur',fourniRouter);
+app.use('/api/famille',famillRouter);
+app.use('/api/article',articleRouter);
+app.use('/api/client',clientRouter);
 
-console.log("nadim");
+
+
+
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`))
