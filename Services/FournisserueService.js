@@ -59,19 +59,62 @@ exports.getall =(req, res) => {
 };
 
 
+
 // get by id  
 exports.getbyId =(req, res) => {
-};
+  Fournisseure.findOne({
+      where: {
+        id: req.body.id
+      }
+    }).then(famille => {
+      if (!famille) {
+        return res.status(404).send({"success":0,"message":" famile n'existe pas "});
+      }
+        return res.status(401).send({"data":famille,"success":0,"message":"famile existe "});
+      
+  });
+}
 
-// get by Cinf
-exports.getByCinf =(req, res) => {
-};
 
-// delete
-exports.delte =(req, res) => {
-};
+exports.update=(req,res)=>{
+  Fournisseure.update(
+  {
+    cinMF: req.body.cinMF,
+    raisonS: req.body.raisonS,
+    email:req.body.email,
+    telephone: parseInt(req.body.telephone),
+    actif: req.body.actif,
+    adresse: req.body.adresse,
+    adminclient_id:req.body.adminclient_id,
+    updated_at: Date.now(),
+},
+  {
+    where: {id: req.params.id},
+  },
+  
+)
+.then(data => {
+  res.send({status:"200",message:"updated"});
+})
+.catch((error) => {
+
+  res.send(error)
+
+});
+}
 
 
-// update
-exports.update =(req, res) => {
-};
+exports.delete=(req,res)=>{
+  Fournisseure.destroy(
+    {
+      where: {id: req.params.id},
+    },
+    
+  )
+  .then(data => {
+    res.send({"data":data,"mesage":"delete seucces"});
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+}

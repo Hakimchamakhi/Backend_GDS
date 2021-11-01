@@ -67,11 +67,42 @@ exports.getbyId =(req, res) => {
     });
 }
 
-// delete
-exports.delte =(req, res) => {
-};
+
+exports.update=(req,res)=>{
+  Famille.update(
+    {
+      nom: req.body.nom,
+      codefam: req.body.codefam,
+      actif: req.body.actif,
+      updated_at: Date.now(),
+  },
+    {
+      where: {id: req.params.id},
+    },
+    
+  )
+  .then(data => {
+    res.send({status:"200",message:"updated"});
+  })
+  .catch((error) => {
+  
+    res.send(error)
+  
+  });
+  }
 
 
-// update
-exports.update =(req, res) => {
-};
+  exports.delete=(req,res)=>{
+    Famille.destroy(
+      {
+        where: {id: req.params.id},
+      },
+      
+    )
+    .then(data => {
+      res.send({"data":data,"mesage":"delete seucces"});
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }

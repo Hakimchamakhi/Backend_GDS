@@ -70,11 +70,46 @@ exports.getbyId =(req, res) => {
     });
 }
 
-// delete
-exports.delte =(req, res) => {
-};
+
+exports.update=(req,res)=>{
+  Client.update(
+    {
+      cinMF: req.body.cinMF,
+      raisonS: req.body.raisonS,
+      email:req.body.email,
+      telephone: parseInt(req.body.telephone),
+      actif: req.body.actif,
+      adresse: req.body.adresse,
+      adminclient_id:req.body.adminclient_id,
+      updated_at: Date.now(),
+  },
+    {
+      where: {id: req.params.id},
+    },
+    
+  )
+  .then(data => {
+    res.send({status:"200",message:"updated"});
+  })
+  .catch((error) => {
+  
+    res.send(error)
+  
+  });
+  }
 
 
-// update
-exports.update =(req, res) => {
-};
+  exports.delete=(req,res)=>{
+    Client.destroy(
+      {
+        where: {id: req.params.id},
+      },
+      
+    )
+    .then(data => {
+      res.send({"data":data,"mesage":"delete seucces"});
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }

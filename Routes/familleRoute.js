@@ -7,6 +7,6 @@ router.post('/create', faservice.create);
 router.get('/getall', faservice.getall);
 router.get('/getbyid/:id', faservice.getbyId);
 router.put('/update/:id', faservice.update);
-router.delete('/delete/:id', faservice.delte);
+router.delete('/delete/:id', faservice.delete);
 
 module.exports=router;
