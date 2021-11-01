@@ -69,9 +69,40 @@ exports.getbyId =(req, res) => {
 
 // delete
 exports.delte =(req, res) => {
+  Famille.destroy({
+    where: {
+       id: req.params.id
+    }
+ }).then(function(rowDeleted){
+  if(rowDeleted === 1){
+     res.json('Deleted successfully');
+   }
+  }, function(err){
+    console.log(err); 
+  });
 };
 
 
 // update
 exports.update =(req, res) => {
-};
+  Famille.update(
+    {
+      nom: req.body.nom,
+      codefam: req.body.codefam,
+      actif: req.body.actif,
+      updated_at: Date.now(),
+  },
+    {
+      where: {id: req.params.id},
+    },
+    
+  )
+  .then(data => {
+    res.send({status:"200",message:"updated",data:data});
+
+  })
+  .catch((error) => {
+    res.send(error)
+
+  });
+}

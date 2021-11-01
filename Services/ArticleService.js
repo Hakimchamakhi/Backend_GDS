@@ -1,5 +1,6 @@
 const db = require("../models");
 const Article = db.Article;
+var models = require('../models');
 
 
 // Create 
@@ -33,6 +34,10 @@ exports.create =(req, res) => {
 // get all  
 exports.getall =(req, res) => {
     Article.findAll({
+      include: [{
+        model: models.Famille,
+        as: 'famille'
+    }],
   order: [
     ['id', 'DESC']
   ]
@@ -40,7 +45,6 @@ exports.getall =(req, res) => {
     if (!data) {
       return res.status(404).send({ reason: 'data Not Found.' });
     } 
-  console.log(data);
   res.status(200).send({data });
 });
 };
@@ -63,9 +67,47 @@ exports.getbyId =(req, res) => {
 
 // delete
 exports.delte =(req, res) => {
+  Article.destroy({
+    where: {
+       id: req.params.id
+    }
+ }).then(function(rowDeleted){
+  if(rowDeleted === 1){
+     res.json('Deleted successfully');
+   }
+  }, function(err){
+    console.log(err); 
+  });
 };
 
 
 // update
 exports.update =(req, res) => {
-};
+  Article.update(
+    {
+      nom: req.body.nom,
+            unite: req.body.unite,
+            quantite: req.body.quantite,
+            actif: req.body.actif,
+            pa: req.body.pa,
+            pv: req.body.pv,
+            marge: req.body.marge,
+            tva: req.body.tva,
+            famille_id: req.body.famille_id,
+            adminclient_id: req.body.adminclient_id,
+            updated_at: Date.now(),
+  },
+    {
+      where: {id: req.params.id},
+    },
+    
+  )
+  .then(data => {
+    res.send({status:"200",message:"updated",data:data});
+
+  })
+  .catch((error) => {
+    res.send(error)
+
+  });
+}
