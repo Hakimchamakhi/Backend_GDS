@@ -72,6 +72,7 @@ exports.getbyId =(req, res) => {
 
 
 exports.update=(req,res)=>{
+  console.log("dsfsf");
   Client.update(
     {
       cinMF: req.body.cinMF,

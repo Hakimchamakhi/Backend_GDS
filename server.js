@@ -8,7 +8,7 @@ var fourniRouter=require('./Routes/FourniRoute');
 var famillRouter=require('./Routes/familleRoute');
 var articleRouter=require('./Routes/ArticleRoute');
 var clientRouter=require('./Routes/ClientRoute');
-
+var BCRouter=require('./Routes/BCRoute');
 
 
 
@@ -30,7 +30,7 @@ app.use('/api/fournisseur',fourniRouter);
 app.use('/api/famille',famillRouter);
 app.use('/api/article',articleRouter);
 app.use('/api/client',clientRouter);
-
+app.use('/api/bc',BCRouter);
 
 
 
