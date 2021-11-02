@@ -4,6 +4,7 @@ const BcService = require("../Services/BcService");
 
  
 router.post('/create', BcService.create);
+router.get('/getall', BcService.getall);
 
 
 

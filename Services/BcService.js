@@ -1,6 +1,7 @@
 const db = require("../models");
 const BonCommande = db.BonCommande;
 const bcAR = db.BcArticle;
+var models = require('../models');
 
 
 // Create 
@@ -45,3 +46,27 @@ exports.create =(req, res) => {
       });
   
 }
+
+
+exports.getall = (req, res) => {
+  BonCommande.findAll({
+    include:
+     [{
+            model: models.Article,
+            as:'article'
+    },
+    {     model:models.Client,
+      as:'client'},
+      
+  ]
+  }).then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "error."
+      });
+    });
+}
+
