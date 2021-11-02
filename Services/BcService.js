@@ -70,3 +70,40 @@ exports.getall = (req, res) => {
     });
 }
 
+exports.delete=(req,res)=>{
+  BonCommande.destroy(
+    {
+      where: {id: req.params.id},
+    },
+    
+  )
+  .then(data => {
+    res.send({"data":data,"mesage":"delete seucces"});
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+}
+
+exports.get = (req, res) => {
+  BonCommande.findOne({
+      where: {
+     id: req.params.id
+    }, include:
+    [{
+           model: models.Article,
+           as:'article'
+   },
+   {     model:models.Client,
+     as:'client'},
+ ]
+  }).then(data => {
+      res.send({"succes":1,"message":"ok","data":data});
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "error."
+      });
+    });
+}
